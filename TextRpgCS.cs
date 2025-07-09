@@ -58,6 +58,11 @@ namespace TextRPG
             "0. 나가기\n\n";
 
 
+        public static string EquipmentStatus { get; } =
+            "인벤토리 - 장착관리 \n" +
+            "보유 중인 아이템을 잘 관리할 수 있습니다.\n\n" +
+            "[아이템 목록]\n";
+
 
         //문자열 받아서 한글자씩 띄우는 함수
         static void PrintStringByTick (string s, int interval)

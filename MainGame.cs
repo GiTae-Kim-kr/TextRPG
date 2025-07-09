@@ -34,7 +34,7 @@ namespace TextRPG
                 Console.WriteLine(string.Format(TextRpgCS.SavePlayerName, PlayerName));
                 int IsSave = int.Parse(Console.ReadLine());
                 //이름 저장 로직 작성
-                if (IsSave == 1) { player.PName = PlayerName; break; }
+                if (IsSave == 1) { player.PName = PlayerName; break; }    //Player.cs의 이름필드에 입력한 이름 저장.
                 else if (IsSave == 2) Console.WriteLine("이름을 다시 설정해주세요");
                 else Console.WriteLine("잘못된 입력입니다!");
             }
@@ -43,7 +43,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextRpgCS.Choicejob);        // 직업 선택.
             string Playerjob = Console.ReadLine();
-            if (int.TryParse(Playerjob, out int jjob))
+            if (int.TryParse(Playerjob, out int jjob))    // 선택 값 받아서 정수값 해주고 switch문으로 직업 저장.
             {
                 switch(jjob)
                 {
@@ -88,7 +88,7 @@ namespace TextRPG
 
         }
 
-        public void StatusScene()
+        public void StatusScene()  // 상태창 씬 함수
         {
             
 
@@ -97,12 +97,18 @@ namespace TextRPG
             Console.Write(TextRpgCS.SetPlayerChoice);
         }
 
-        public void InventoryScene()
+        public void InventoryScene()    // 인벤토리 씬 함수
         {
             Console.Clear();
             Console.WriteLine(TextRpgCS.ShowInventory);
-            Console.Write(TextRpgCS.SetPlayerChoice);
+            // 보유중인 아이템 있으면 하나씩 추가해서 보여지게 해야함 (추가예정)
+            Console.Write(TextRpgCS.SetPlayerChoice);  
 
+        }
+
+        public void InventoryEquipmentScene()  //인벤토리 장착 관리 씬
+        {
+            Console.Clear();
         }
 
         public void ShopScene()
