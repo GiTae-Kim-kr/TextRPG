@@ -18,9 +18,16 @@ namespace TextRPG
             game.StartGame();
 
             //게임 시작화면에서 루트 선택(상태,인벤,상점,던전)
-            if (game.SelectRoute == 1) game.StatusScene();
+            if (game.SelectRoute == 1)
+            {
+                game.StatusScene();
+                string input = Console.ReadLine();
+                if (input == "0") game.StartGame();
+                else game.StartGame();
+            }
             else if (game.SelectRoute == 2) game.InventoryScene();
             else if (game.SelectRoute == 3) game.ShopScene();
+            
 
         }
     }
