@@ -34,7 +34,7 @@ namespace TextRPG
                 Console.WriteLine(string.Format(TextRpgCS.SavePlayerName, PlayerName));
                 int IsSave = int.Parse(Console.ReadLine());
                 //이름 저장 로직 작성
-                if (IsSave == 1) break;
+                if (IsSave == 1) { player.PName = PlayerName; break; }
                 else if (IsSave == 2) Console.WriteLine("이름을 다시 설정해주세요");
                 else Console.WriteLine("잘못된 입력입니다!");
             }
@@ -93,13 +93,16 @@ namespace TextRPG
             
 
             Console.Clear();
-            Console.WriteLine(string.Format(TextRpgCS.ShowPlayerStatus, player.PLevel, player.PJob, player.AttackP, player.ProtectP, player.PHealthG,player.PMoney)); //0.레벨 1.직업, 2.공격력 3.방어 4.체력 5. 골드
-            Console.WriteLine(TextRpgCS.SetPlayerChoice);
+            Console.WriteLine(string.Format(TextRpgCS.ShowPlayerStatus, player.PName, player.PLevel, player.PJob, player.AttackP, player.ProtectP, player.PHealthG,player.PMoney)); //0.플레이어 1.레벨 2.직업, 3.공격력 4.방어 5.체력 6. 골드
+            Console.Write(TextRpgCS.SetPlayerChoice);
         }
 
         public void InventoryScene()
         {
             Console.Clear();
+            Console.WriteLine(TextRpgCS.ShowInventory);
+            Console.Write(TextRpgCS.SetPlayerChoice);
+
         }
 
         public void ShopScene()

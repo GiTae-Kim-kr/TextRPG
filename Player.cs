@@ -2,6 +2,7 @@
 
 class Player
 {
+    string PlayerName = "000";
     int PlayerLevel = 0;  //초기 레벨0
     string PlayerJob = "무전직자";
     int AttackPower = 10;  //초기 공격력 10
@@ -19,6 +20,8 @@ class Player
         Money = money;
     }
 
+    // 프로퍼티
+    public string PName { get { return PlayerName; } set { PlayerName = value; } }
     public int PLevel { get { return PlayerLevel; } set { PlayerLevel = value; } }
     public string PJob { get { return PlayerJob; } set { PlayerJob = value; } } // 플레이어 직업 읽고 값 넣을 수 있게.
     public int AttackP { get { return AttackPower; } set { AttackPower = value; } }

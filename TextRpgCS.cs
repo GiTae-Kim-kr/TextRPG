@@ -39,14 +39,14 @@ namespace TextRPG
             "4. 던전 입장\n";
 
         public static string ShowPlayerStatus { get; } =
-            "상태창 \n" +
+            "{0}의 상태창 \n" +
             "캐릭터의 정보가 표시됩니다.\n\n" +
-            "LV. {0}\n" +
-            "Chad {1}\n" +
-            "공격력 : {2}\n" +
-            "방어력 : {3}\n" +
-            "체 력  : {4}\n" +
-            "Gold   : {5} G\n\n" +
+            "LV. {1}\n" +
+            "Chad {2}\n" +
+            "공격력 : {3}\n" +
+            "방어력 : {4}\n" +
+            "체 력  : {5}\n" +
+            "Gold   : {6} G\n\n" +
             "0. 나가기";
 
 

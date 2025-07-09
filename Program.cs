@@ -22,11 +22,11 @@ namespace TextRPG
             {
                 game.StatusScene();
                 string input = Console.ReadLine();
-                if (input == "0") game.StartGame();
+                if (input == "0") game.StartGame();  //0입력 받으면 다시 StartGame으로 돌아가기
                 else game.StartGame();
             }
-            else if (game.SelectRoute == 2) game.InventoryScene();
-            else if (game.SelectRoute == 3) game.ShopScene();
+            else if (game.SelectRoute == 2) game.InventoryScene(); //인벤토리 화면으로
+            else if (game.SelectRoute == 3) game.ShopScene();     // 상점으로 이동
             
 
         }
