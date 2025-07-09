@@ -11,6 +11,16 @@ namespace TextRPG
 {
     internal class MainGame
     { // 메인 게임 로직. 클래스로 작성해서 Program으로 넘겨줌.
+
+        private int selectRoute; // StartScene의 분기 이동 선택 저장을 위한 필드 선언
+
+        public int SelectRoute  // Program.cs에서 읽을 수 있게 프로퍼티 설정
+        {
+            get { return selectRoute; }
+            set { selectRoute = value; }
+        }
+
+
         public void IntroGame()
         {
 
@@ -35,25 +45,20 @@ namespace TextRPG
 
         public void StartGame()  // 필수기능가이드1. 게임시작화면.
         {
-            private int selectRoute;
 
             Console.Clear();
             Console.WriteLine(TextRpgCS.EnterTown);
             Console.Write(TextRpgCS.SetPlayerChoice);
-            int SaveJob = int.Parse(Console.ReadLine());
+            int SelectRoute = int.Parse(Console.ReadLine());
 
-            switch (SaveJob)
+            switch (SelectRoute)
             {
                 case 1: Console.WriteLine("상태창으로 이동합니다!"); break;
                 case 2: Console.WriteLine("인벤토리를 확인합니다!"); break;
                 case 3: Console.WriteLine("상점으로 이동합니다!"); break;
             }
 
-            Public int SelectRoute
-            {
-                get { retrun selectRoute; }
-                set { selectRoute = SaveJob; }
-            }
+
         }
 
         public void StatusScene()
