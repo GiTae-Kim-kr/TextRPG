@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using TextRPG;
@@ -33,6 +35,8 @@ namespace TextRPG
 
         public void StartGame()  // 필수기능가이드1. 게임시작화면.
         {
+            private int selectRoute;
+
             Console.Clear();
             Console.WriteLine(TextRpgCS.EnterTown);
             Console.Write(TextRpgCS.SetPlayerChoice);
@@ -43,6 +47,12 @@ namespace TextRPG
                 case 1: Console.WriteLine("상태창으로 이동합니다!"); break;
                 case 2: Console.WriteLine("인벤토리를 확인합니다!"); break;
                 case 3: Console.WriteLine("상점으로 이동합니다!"); break;
+            }
+
+            Public int SelectRoute
+            {
+                get { retrun selectRoute; }
+                set { selectRoute = SaveJob; }
             }
         }
 
