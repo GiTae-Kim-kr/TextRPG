@@ -69,7 +69,7 @@ namespace TextRPG
             }
         }
 
-        public void SelectWearItem(int index, string itemNumber, List<Item> inventory)
+        public void SelectWearItem(int index, string itemNumber, List<Item> inventory) // 아이템 장착하고 해제하는 함수
         {
 
 
@@ -107,6 +107,28 @@ namespace TextRPG
 
 
         }
+
+
+
+        public void ReflectItemValue(Player player, List<Item> inventory)    // 장착한 아이템에 따른 상태창 변화
+        {
+            foreach (Item item in inventory)
+            {
+                int Value = Math.Abs(int.Parse(item.ItemEffectValue));  // "+7" 형식의 스트링값을 정수형으로 변환후 절대값을 취해주는 코드
+
+
+                if (item.IsItemWear)   // 인벤토리에서 장착하고 있는 아이템이라면
+                {
+                    switch(item.ItemAbilityType)  // 장착하고 있는 아이템의 능력 종류에 따라서 다른 능력에 반영
+                    {
+                        case "공격력": player.AttackP += Value; break;
+                        case "방어력": player.ProtectP += Value; break;
+                        
+                    }
+                }
+            }
+        }
+
 
 	}
 }

@@ -94,9 +94,9 @@ namespace TextRPG
 
         public void StatusScene()  // 상태창 씬 함수
         {
-            
 
             Console.Clear();
+            doLogic.ReflectItemValue(player, inventory);
             Console.WriteLine(string.Format(TextRpgCS.ShowPlayerStatus, player.PName, player.PLevel, player.PJob, player.AttackP, player.ProtectP, player.PHealthG,player.PMoney)); //0.플레이어 1.레벨 2.직업, 3.공격력 4.방어 5.체력 6. 골드
             Console.Write(TextRpgCS.SetPlayerChoice);
         }
