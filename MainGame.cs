@@ -30,7 +30,7 @@ namespace TextRPG
         public void IntroGame()
         {
 
-            player = new Player(0, "무전직자", 10, 5, 100 ,1500);
+            player = new Player(0, "무전직자", 10, 5, 100 ,1500);  // 초기값!
 
             while (true)
             {
@@ -80,7 +80,8 @@ namespace TextRPG
                     case 1: Console.WriteLine("상태창으로 이동합니다!"); break;
                     case 2: Console.WriteLine("인벤토리를 확인합니다!"); break;
                     case 3: Console.WriteLine("상점으로 이동합니다!"); break;
-                    case 4: Console.WriteLine("던전으로 이동하빈다!"); break;
+                    case 4: Console.WriteLine("던전으로 이동합니다!"); break;
+                    case 5: Console.WriteLine("휴식을 위해 이동합니다!"); break;
                     default: Console.WriteLine("잘못된 선택입니다!"); break;
                 }
             }
@@ -99,7 +100,7 @@ namespace TextRPG
             Console.Clear();
             doLogic.ReflectItemValue(player, inventory, out plusStatA, out plusStatP);
             Console.WriteLine(string.Format(TextRpgCS.ShowPlayerStatus, player.PName, player.PLevel, player.PJob,
-                player.AttackP, player.ProtectP, player.PHealthG,player.PMoney, plusStatA, plusStatP)); //0.플레이어 1.레벨 2.직업, 3.공격력 4.방어 5.체력 6. 골드 7. 공격 추가스탯 8. 방어 추가 스탯
+                player.AttackP, player.ProtectP, player.PHealthC,player.PMoney, plusStatA, plusStatP)); //0.플레이어 1.레벨 2.직업, 3.공격력 4.방어 5.체력 6. 골드 7. 공격 추가스탯 8. 방어 추가 스탯
             Console.Write(TextRpgCS.SetPlayerChoice);
         }
 
@@ -181,6 +182,36 @@ namespace TextRPG
                 if (buyitem == "0") break;
             }while (true);
 
+
+        }
+
+        public void RestScene()
+        {
+            Console.Clear();
+            Console.WriteLine(TextRpgCS.RestHealth,player.PMoney );
+            Console.Write(TextRpgCS.SetPlayerChoice);
+            string restSelect = Console.ReadLine();
+            if (restSelect == "1")
+            {
+                int CureHealth = player.PHealthG - player.PHealthC; // 전체 HP에서 현재 체력을 뺴면 회복에 필요한 HP 양을 구할 수 있음
+
+                player.PMoney -= 500;
+                player.PHealthC += CureHealth;
+                Console.WriteLine($"{CureHealth} 만큼 HP를 회복하였습니다!");
+                // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
+                Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                Console.ReadKey();
+
+            }
+            else 
+            { 
+                Console.WriteLine("시작화면으로 돌아갑니다!");
+
+                // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
+                Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                Console.ReadKey();
+            }
+            
 
         }
 

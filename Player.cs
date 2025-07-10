@@ -8,6 +8,7 @@ class Player
     int AttackPower = 10;  //총 공격력 초기값
     int ProtectPower = 5;  //총 방어력 초기값
     int PlayerHealthGage = 100;  //초기 체력 100
+    public int PlayerCurrentHealth = 100; // 현재 체력
     int Money = 1500;      //초기 골드 1500
 
     public int BaseAttackP { get; set; }   // 기본 공격력
@@ -30,5 +31,6 @@ class Player
     public int AttackP { get { return AttackPower; } set { AttackPower = value; } }
     public int ProtectP { get { return ProtectPower; } set { ProtectPower = value; } }
     public int PHealthG { get { return PlayerHealthGage; } set { PlayerHealthGage = value; } }
+    public int PHealthC { get { return PlayerCurrentHealth; } set { PlayerCurrentHealth = value; } }
     public int PMoney { get { return Money; } set { Money = value; } }
 }

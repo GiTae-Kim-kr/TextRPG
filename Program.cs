@@ -54,6 +54,7 @@ namespace TextRPG
                     }
 
                 }
+                else if (game.SelectRoute == 5) game.RestScene();
                 else if (game.SelectRoute == 0) break;
 
             }

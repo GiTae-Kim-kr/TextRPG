@@ -36,7 +36,8 @@ namespace TextRPG
             "1. 상태 보기\n" +
             "2. 인벤토리\n" +
             "3. 상점\n" +
-            "4. 던전 입장\n";
+            "4. 던전 입장\n"+
+            "5. 휴식하기\n";
 
         public static string ShowPlayerStatus { get; } =
             "{0}의 상태창 \n" +
@@ -84,7 +85,11 @@ namespace TextRPG
             "{0} G\n\n" +
             "[아이템 목록]";
 
-
+        public static string RestHealth { get; } =
+            "휴식하기\n" +
+            "500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {0} G)\n\n" +
+            "1. 휴식하기\n" +
+            "0. 나가기\n\n";
 
 
         //문자열 받아서 한글자씩 띄우는 함수
