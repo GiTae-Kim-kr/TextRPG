@@ -53,7 +53,9 @@ namespace TextRPG
         public static string ShowInventory { get; } =
             "인벤토리 \n" +
             "보유 중인 아이템을 관리할 수 있습니다.\n\n" +
-            "[아이템 목록]\n" +
+            "[아이템 목록]\n";
+
+        public static string SelectInven { get; } =
             "1. 장착 관리\n" +
             "0. 나가기\n\n";
 
@@ -62,6 +64,27 @@ namespace TextRPG
             "인벤토리 - 장착관리 \n" +
             "보유 중인 아이템을 잘 관리할 수 있습니다.\n\n" +
             "[아이템 목록]\n";
+
+
+        public static string ShowShop { get; } =
+            "상점 \n" +
+            "필요한 아이템을 얻을 수 있는 상점입니다.\n\n" +
+            "[보유 골드]\n" +
+            "{0} G\n\n" +
+            "[아이템 목록]\n";
+
+        public static string SelectTwo { get; } =
+            "1. 아이템 구매\n" +
+            "0. 나가기";
+
+        public static string BuyShopItem { get; } =
+            "상점 - 아이템 구매\n" +
+            "필요한 아이템을 얻을 수 있는 상점입니다.\n\n" +
+            "[보유 골드]\n" +
+            "{0} G\n\n" +
+            "[아이템 목록]";
+
+
 
 
         //문자열 받아서 한글자씩 띄우는 함수

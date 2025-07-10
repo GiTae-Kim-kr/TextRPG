@@ -30,9 +30,14 @@ namespace TextRPG
             {
                 game.InventoryScene();               //인벤토리 화면으로
                 string InvenInput = Console.ReadLine();  // 1.장착관리 0.나가기
-            } 
-            else if (game.SelectRoute == 3) game.ShopScene();     // 상점으로 이동
-            
+                if (InvenInput == "0") game.StartGame();
+            }
+            else if (game.SelectRoute == 3)
+            {
+                game.ShopScene();     // 상점으로 이동
+                string shopInput = Console.ReadLine();
+                //if (shopInput == "0") game.StartGame();
+            }
 
         }
     }

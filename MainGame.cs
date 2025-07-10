@@ -14,6 +14,8 @@ namespace TextRPG
 
         private int selectRoute; // StartScene의 분기 이동 선택 저장을 위한 필드 선언
         private Player player;  // Player.cs의 프로퍼티 사용하기 위해 인스턴스 만들어야 함. 그걸 위한 필드 선언.
+        private List<Item> inventory = new List<Item>();  //인벤토리에 추가된 아이템 리스트 담을 객체
+        private Shop shopItem = new Shop();      //상점에 추가한 아이템 볼 수 있게 클래스 받아온 객체
 
 
         public int SelectRoute  // Program.cs에서 읽을 수 있게 프로퍼티 설정
@@ -101,7 +103,12 @@ namespace TextRPG
         {
             Console.Clear();
             Console.WriteLine(TextRpgCS.ShowInventory);
-            // 보유중인 아이템 있으면 하나씩 추가해서 보여지게 해야함 (추가예정)
+            foreach (Item item in inventory)   // 인벤토리에 추가한 아이템 볼 수 있게 하기
+            {
+                Console.Write($"-[{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
+                Console.WriteLine($"{item.ItemDescription}");
+            }
+            Console.WriteLine(TextRpgCS.SelectInven);
             Console.Write(TextRpgCS.SetPlayerChoice);  
 
         }
@@ -114,6 +121,19 @@ namespace TextRPG
         public void ShopScene()
         {
             Console.Clear();
+            Console.WriteLine(TextRpgCS.ShowShop, player.PMoney);
+            foreach (Item item in shopItem.ShopItems)  // 상점에 추가한 아이템 볼 수 있게 코드 작성
+            {
+                Console.Write($"-[{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
+                Console.WriteLine($"{item.ItemDescription}");
+            }
+            Console.WriteLine(TextRpgCS.SelectTwo);
+            Console.Write(TextRpgCS.SetPlayerChoice);
+        }
+
+        public void ItemBuy(int itemIndex)
+        {
+
         }
 
     }
