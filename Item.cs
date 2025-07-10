@@ -3,7 +3,7 @@
 
 internal class Item
 {
-    public char ItemWear { get; set; }               //아이템 착용여부
+    public bool IsItemWear { get; set; }               //아이템 착용여부
     public string ItemRarity { get; set; }             // 아이템 희귀도
     public string ItemName { get; set; }             //아이템 이름
     public string ItemAbilityType { get; set; }      //아이템 능력 종류

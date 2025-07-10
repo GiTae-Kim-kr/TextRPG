@@ -36,7 +36,11 @@ namespace TextRPG
                 {
                     game.InventoryScene();               //인벤토리 화면으로
                     string InvenInput = Console.ReadLine();  // 1.장착관리 0.나가기
-                    if (InvenInput == "0") game.StartGame();
+                    if (InvenInput == "1")
+                    {
+                        game.InventoryEquipmentScene();    // 장착 관리 화면으로 이동.
+                    }
+
                 }
                 else if (game.SelectRoute == 3)
                 {

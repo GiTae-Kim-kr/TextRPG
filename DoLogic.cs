@@ -51,7 +51,8 @@ namespace TextRPG
         {
             foreach (Item item in inventory)   // 인벤토리에 추가한 아이템 볼 수 있게 하기
             {
-                Console.Write($"-{index}.[{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
+                string equipMark = item.IsItemWear ? "[E]" : "";
+                Console.Write($"-{index}.{equipMark}[{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
                 Console.WriteLine($"{item.ItemDescription}");
                 index++;
             }
@@ -73,39 +74,37 @@ namespace TextRPG
 
 
             // 아이템 선택하면 착용했다는 표시 나타나게 하기
-            do
+
+            if (!int.TryParse(itemNumber, out int wearIndex) || wearIndex < 0 || wearIndex >= inventory.Count+1)
             {
+                Console.WriteLine("잘못된 아이템 번호입니다.");
+                return;
+            }
 
-                if (!int.TryParse(itemNumber, out int wearIndex) || wearIndex < 0 || wearIndex >= inventory.Count)
-                {
-                    Console.WriteLine("잘못된 아이템 번호입니다.");
-                    return;
-                }
+            if (wearIndex == 0) return;
 
-                // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
-                Console.WriteLine("계속하려면 아무 키나 누르세요...");
-                Console.ReadKey();
+            // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
+            Console.WriteLine("계속하려면 아무 키나 누르세요...");
+            Console.ReadKey();
 
-                Console.Clear();
+            Console.Clear();
+            Console.WriteLine(TextRpgCS.EquipmentStatus);
 
-                foreach (Item item in inventory)   // 인벤토리에 추가한 아이템 볼 수 있게 하기
-                {
-                    if (wearIndex == index)
-                    {
-                        Console.Write($"-{index}.[E][{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
-                        Console.WriteLine($"{item.ItemDescription}");
-                    }
-                    else
-                    {
-                        Console.Write($"-{index}.[{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
-                        Console.WriteLine($"{item.ItemDescription}");
-                    }
-                    index++;
-                }
 
-                if (itemNumber == "0") break;
+            if (!(inventory[wearIndex-1].IsItemWear))  // 선택한 아이템이 장착되지 않은 상태라면 true로
+            {
+                inventory[wearIndex - 1].IsItemWear = true;
+            }
+            else                                       // 선택한 아이템이 이미 장착되어 있던 상태라면 해제를 위해 false로
+            {
+                inventory[wearIndex - 1].IsItemWear = false;
+            }
 
-            } while (true);
+            SeeInventoryItem(index, inventory);     // 인벤토리 아이템 나타내는 함수.
+
+            Console.WriteLine("\n\n0. 나가기\n\n");
+            Console.Write(TextRpgCS.SetPlayerChoice);
+
 
         }
 

@@ -106,6 +106,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextRpgCS.ShowInventory);
 
+
             doLogic.SeeInventoryItem(index, inventory);   // 인벤토리에 추가한 아이템 볼 수 있게 하기
             
             Console.WriteLine(TextRpgCS.SelectInven);
@@ -117,6 +118,7 @@ namespace TextRPG
 
         public void InventoryEquipmentScene()  //인벤토리 장착 관리 씬
         {
+            
             Console.Clear();
             Console.WriteLine(TextRpgCS.EquipmentStatus);
 
@@ -124,8 +126,18 @@ namespace TextRPG
 
             Console.WriteLine("\n\n0. 나가기\n\n");
             Console.Write(TextRpgCS.SetPlayerChoice);
-            string itemNumber = Console.ReadLine();
-            doLogic.SelectWearItem(index,itemNumber, inventory);
+            
+
+            do
+            {
+                string itemNumber = Console.ReadLine();
+
+                doLogic.SelectWearItem(index, itemNumber, inventory);
+
+                if (itemNumber == "0") break;
+
+            }while (true);
+            
 
         }
 

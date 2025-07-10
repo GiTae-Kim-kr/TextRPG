@@ -56,7 +56,7 @@ namespace TextRPG
             "[아이템 목록]\n";
 
         public static string SelectInven { get; } =
-            "1. 장착 관리\n" +
+            "\n1. 장착 관리\n" +
             "0. 나가기\n\n";
 
 
