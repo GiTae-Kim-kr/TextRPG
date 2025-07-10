@@ -29,6 +29,7 @@ namespace TextRPG
 
         public void IntroGame()
         {
+
             player = new Player(0, "무전직자", 10, 5, 100 ,1500);
 
             while (true)
@@ -94,10 +95,11 @@ namespace TextRPG
 
         public void StatusScene()  // 상태창 씬 함수
         {
-
+            string plusStatA, plusStatP;
             Console.Clear();
-            doLogic.ReflectItemValue(player, inventory);
-            Console.WriteLine(string.Format(TextRpgCS.ShowPlayerStatus, player.PName, player.PLevel, player.PJob, player.AttackP, player.ProtectP, player.PHealthG,player.PMoney)); //0.플레이어 1.레벨 2.직업, 3.공격력 4.방어 5.체력 6. 골드
+            doLogic.ReflectItemValue(player, inventory, out plusStatA, out plusStatP);
+            Console.WriteLine(string.Format(TextRpgCS.ShowPlayerStatus, player.PName, player.PLevel, player.PJob,
+                player.AttackP, player.ProtectP, player.PHealthG,player.PMoney, plusStatA, plusStatP)); //0.플레이어 1.레벨 2.직업, 3.공격력 4.방어 5.체력 6. 골드 7. 공격 추가스탯 8. 방어 추가 스탯
             Console.Write(TextRpgCS.SetPlayerChoice);
         }
 

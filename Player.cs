@@ -5,10 +5,13 @@ class Player
     string PlayerName = "000";
     int PlayerLevel = 0;  //초기 레벨0
     string PlayerJob = "무전직자";
-    int AttackPower = 10;  //초기 공격력 10
-    int ProtectPower = 5;  //초기 방어력 5
+    int AttackPower = 10;  //총 공격력 초기값
+    int ProtectPower = 5;  //총 방어력 초기값
     int PlayerHealthGage = 100;  //초기 체력 100
     int Money = 1500;      //초기 골드 1500
+
+    public int BaseAttackP { get; set; }   // 기본 공격력
+    public int BaseProtectP { get; set; }  // 기본 방어력
 
     public Player(int playerLevel, string playerJob, int attackPower, int protectedPower, int playerHealthGage, int money)
     {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -110,22 +111,45 @@ namespace TextRPG
 
 
 
-        public void ReflectItemValue(Player player, List<Item> inventory)    // 장착한 아이템에 따른 상태창 변화
+        public void ReflectItemValue(Player player, List<Item> inventory,out string plusStatA,out string plusStatP)    // 장착한 아이템에 따른 상태창 변화
         {
+
+            int addAttack = 0;  // 공격 추가 수치를 저장을 위한 변수
+            int addProtect = 0;  // 마찬가지로 방어 추가 수치
+
+            plusStatA = "";  // 함수 밖에서 쓰기위해 out으로 매개변수를 생성해줌
+            plusStatP = "";
+
+            player.BaseAttackP = 10;
+            player.BaseProtectP = 5;
+
             foreach (Item item in inventory)
             {
-                int Value = Math.Abs(int.Parse(item.ItemEffectValue));  // "+7" 형식의 스트링값을 정수형으로 변환후 절대값을 취해주는 코드
-
+                
 
                 if (item.IsItemWear)   // 인벤토리에서 장착하고 있는 아이템이라면
                 {
-                    switch(item.ItemAbilityType)  // 장착하고 있는 아이템의 능력 종류에 따라서 다른 능력에 반영
+                    int value = Math.Abs(int.Parse(item.ItemEffectValue));  // "+7" 형식의 스트링값을 정수형으로 변환후 절대값을 취해주는 코드
+                    switch (item.ItemAbilityType)  // 장착하고 있는 아이템의 능력 종류에 따라서 다른 능력에 반영
                     {
-                        case "공격력": player.AttackP += Value; break;
-                        case "방어력": player.ProtectP += Value; break;
-                        
+                        case "공격력":
+                            addAttack += value;
+                            plusStatA = $"({addAttack})";
+                            break;
+                        case "방어력":
+                            addProtect += value;
+                            plusStatP = $"({addProtect})";
+                            break;
+
                     }
                 }
+
+                if (addAttack > 0) plusStatA = $"(+{addAttack})";
+                if (addProtect > 0) plusStatP = $"(+{addProtect})";
+
+                // 최종 능력치는 기본 능력치 + 장착 아이템 보너스
+                player.AttackP = player.BaseAttackP + addAttack;
+                player.ProtectP = player.BaseProtectP + addProtect;
             }
         }
 
