@@ -16,7 +16,9 @@ namespace TextRPG
         private Player player;  // Player.cs의 프로퍼티 사용하기 위해 인스턴스 만들어야 함. 그걸 위한 필드 선언.
         private List<Item> inventory = new List<Item>();  //인벤토리에 추가된 아이템 리스트 담을 객체
         private Shop shopItem = new Shop();      //상점에 추가한 아이템 볼 수 있게 클래스 받아온 객체
+        DoLogic doLogic = new DoLogic();    // DoLogic 클래스의 함수 사용할려고 인스턴스 생성
 
+        private int index = 1;  // 인벤토리, 상점창에서 아이템 번호 나타내기 위한 변수 선언
 
         public int SelectRoute  // Program.cs에서 읽을 수 있게 프로퍼티 설정
         {
@@ -103,36 +105,68 @@ namespace TextRPG
         {
             Console.Clear();
             Console.WriteLine(TextRpgCS.ShowInventory);
-            foreach (Item item in inventory)   // 인벤토리에 추가한 아이템 볼 수 있게 하기
-            {
-                Console.Write($"-[{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
-                Console.WriteLine($"{item.ItemDescription}");
-            }
+
+            doLogic.SeeInventoryItem(index, inventory);   // 인벤토리에 추가한 아이템 볼 수 있게 하기
+            
             Console.WriteLine(TextRpgCS.SelectInven);
-            Console.Write(TextRpgCS.SetPlayerChoice);  
+            Console.Write(TextRpgCS.SetPlayerChoice);
+
+            
 
         }
 
         public void InventoryEquipmentScene()  //인벤토리 장착 관리 씬
         {
             Console.Clear();
+            Console.WriteLine(TextRpgCS.EquipmentStatus);
+
+            doLogic.SeeInventoryItem(index, inventory);
+
+            Console.WriteLine("\n\n0. 나가기\n\n");
+            Console.Write(TextRpgCS.SetPlayerChoice);
+            string itemNumber = Console.ReadLine();
+            doLogic.SelectWearItem(index,itemNumber, inventory);
+
         }
 
-        public void ShopScene()
+        public void ShopScene()  //상점창
         {
+            
             Console.Clear();
             Console.WriteLine(TextRpgCS.ShowShop, player.PMoney);
-            foreach (Item item in shopItem.ShopItems)  // 상점에 추가한 아이템 볼 수 있게 코드 작성
-            {
-                Console.Write($"-[{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
-                Console.WriteLine($"{item.ItemDescription}");
-            }
+
+            doLogic.SeeShopItem(index, shopItem, player);  // 상점에 추가한 아이템 볼 수 있게 코드 작성
+
+            Console.WriteLine();
             Console.WriteLine(TextRpgCS.SelectTwo);
+            Console.WriteLine();
             Console.Write(TextRpgCS.SetPlayerChoice);
         }
 
-        public void ItemBuy(int itemIndex)
+        public void ItemBuyScene()   // 아이템 구매 창
         {
+            
+            do
+            {
+                Console.Clear();
+                Console.WriteLine(TextRpgCS.BuyShopItem, player.PMoney);
+
+                doLogic.SeeShopItem(index, shopItem, player);  // 상점에서 보여줬던 리스트랑 똑같이.
+
+                Console.WriteLine("\n\n0. 나가기\n\n");
+                Console.Write(TextRpgCS.SetPlayerChoice);
+
+                string buyitem = Console.ReadLine();
+                doLogic.BuyItem(buyitem, player, shopItem, inventory);
+                index = 1;
+
+                // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
+                Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                Console.ReadKey();
+                
+                if (buyitem == "0") break;
+            }while (true);
+
 
         }
 
