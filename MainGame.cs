@@ -190,26 +190,33 @@ namespace TextRPG
 
         public void ItemSellScene()    // 아이템 판매 창
         {
-            Console.Clear();
-            Console.WriteLine(TextRpgCS.SellInvenItem, player.PMoney);
-            foreach (Item item in inventory)
-            {// 인벤토리 아이템에 가격 표시해서 상점 판매창에서 볼 수 있게 하기
 
-                Console.Write($"-{index}.[{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
-                Console.WriteLine($"{item.ItemDescription}    | {item.ItemPrice}");
-                index++;
-            }
-            Console.WriteLine("\n0. 나가기\n");
-            Console.Write(TextRpgCS.SetPlayerChoice);
-            string itemNumber = Console.ReadLine();
-            doLogic.InputNull(itemNumber);
-            doLogic.ItemSell(itemNumber, inventory,player);               // 아이템 판매 함수
-            index = 1;
+            do
+            {
 
-            // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
-            Console.WriteLine("계속하려면 아무 키나 누르세요...");
-            Console.ReadKey();
 
+                Console.Clear();
+                Console.WriteLine(TextRpgCS.SellInvenItem, player.PMoney);
+                foreach (Item item in inventory)
+                {// 인벤토리 아이템에 가격 표시해서 상점 판매창에서 볼 수 있게 하기
+
+                    Console.Write($"-{index}.[{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
+                    Console.WriteLine($"{item.ItemDescription}    | {item.ItemPrice}");
+                    index++;
+                }
+                Console.WriteLine("\n0. 나가기\n");
+                Console.Write(TextRpgCS.SetPlayerChoice);
+                string itemNumber = Console.ReadLine();
+                doLogic.InputNull(itemNumber);
+                doLogic.ItemSell(itemNumber, inventory, player);               // 아이템 판매 함수
+                index = 1;
+
+                if (itemNumber == "0") break;
+
+                // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
+                Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                Console.ReadKey();
+            }while (true);
         }
 
 
