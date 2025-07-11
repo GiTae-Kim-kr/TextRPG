@@ -100,6 +100,21 @@ namespace TextRPG
             "0. 나가기\n\n";
 
 
+        public static string GoDungeon { get; } =
+            "던전입장\n" +
+            "이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n\n" +
+            "1. 던전(Easy)        | 방어력 5 이상 권장\n" +
+            "2. 던전(Normal)      | 방어력 11 이상 권장\n" +
+            "3. 던전(Hard)        | 방어력 17 이상 권장\n";
+
+        public static string DungeonClear { get; } =
+            "던전 클리어\n" +
+            "축하합니다!!\n" +
+            "{0} 던전을 클리어 하셨습니다!\n\n" +
+            "[탐험 결과]\n" +
+            "체력 {1} -> {2}\n" +
+            "Gold {3} -> {4}\n\n";
+
         //문자열 받아서 한글자씩 띄우는 함수
         static void PrintStringByTick (string s, int interval)
         {

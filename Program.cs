@@ -55,6 +55,15 @@ namespace TextRPG
                     else if (shopInput == "2") game.ItemSellScene();  // 상점- 판매창으로 이동
 
                 }
+                else if (game.SelectRoute == 4)   
+                {
+
+                    game.GoDungeonScene();    // 던전 난이도 선택창으로 이동
+                    string selectDungeon = Console.ReadLine();
+                    if (selectDungeon == "1") { string difficulty = "Easy";  game.DungeonClearScene(difficulty); }
+                    else if (selectDungeon =="2") { string difficulty = "Normal";  game.DungeonClearScene(difficulty); }
+                    else if (selectDungeon == "3") { string difficulty = "Hard"; game.DungeonClearScene(difficulty); }
+                }
                 else if (game.SelectRoute == 5) game.RestScene();
                 else if (game.SelectRoute == 0) break;
 

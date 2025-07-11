@@ -151,7 +151,7 @@ namespace TextRPG
         {
             
             Console.Clear();
-            Console.WriteLine(TextRpgCS.ShowShop, player.PMoney);
+            Console.WriteLine(string.Format(TextRpgCS.ShowShop, player.PMoney));
 
             doLogic.SeeShopItem(index, shopItem, player);  // 상점에 추가한 아이템 볼 수 있게 코드 작성
 
@@ -167,7 +167,7 @@ namespace TextRPG
             do
             {
                 Console.Clear();
-                Console.WriteLine(TextRpgCS.BuyShopItem, player.PMoney);
+                Console.WriteLine(string.Format(TextRpgCS.BuyShopItem, player.PMoney));
 
                 doLogic.SeeShopItem(index, shopItem, player);  // 상점에서 보여줬던 리스트랑 똑같이.
 
@@ -197,7 +197,7 @@ namespace TextRPG
 
 
                 Console.Clear();
-                Console.WriteLine(TextRpgCS.SellInvenItem, player.PMoney);
+                Console.WriteLine(string.Format(TextRpgCS.SellInvenItem, player.PMoney));
                 foreach (Item item in inventory)
                 {// 인벤토리 아이템에 가격 표시해서 상점 판매창에서 볼 수 있게 하기
 
@@ -224,7 +224,7 @@ namespace TextRPG
         public void RestScene()   // 회복할 수 있는 창.
         {
             Console.Clear();
-            Console.WriteLine(TextRpgCS.RestHealth,player.PMoney );
+            Console.WriteLine(string.Format(TextRpgCS.RestHealth,player.PMoney) );
             Console.Write(TextRpgCS.SetPlayerChoice);
             string restSelect = Console.ReadLine();
             doLogic.InputNull(restSelect);
@@ -259,8 +259,31 @@ namespace TextRPG
                 Console.ReadKey();
             }
             
-
         }
+
+        public void GoDungeonScene()
+        {
+            Console.Clear();
+            Console.WriteLine(TextRpgCS.GoDungeon);
+            Console.WriteLine("0. 나가기\n\n");
+            Console.Write(TextRpgCS.SetPlayerChoice);
+            
+        }
+
+        public void DungeonClearScene(string difficulty)
+        {
+            int PastHealth = 0, PastMoney = 0;
+            Console.Clear();
+
+            doLogic.ReflectDungeonResult(player, difficulty, out PastHealth, out PastMoney);
+
+            Console.WriteLine(string.Format(TextRpgCS.DungeonClear, difficulty, PastHealth, player.PHealthC, PastMoney, player.PMoney));
+            Console.WriteLine("\n0. 나가기\n\n");
+            Console.Write(TextRpgCS.SetPlayerChoice);
+
+            Console.ReadKey();
+        }
+
 
     }
 }

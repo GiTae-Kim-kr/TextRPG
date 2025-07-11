@@ -200,6 +200,69 @@ namespace TextRPG
 
         }
 
+        public void ReflectDungeonResult(Player player, string difficulty, out int PastHealth, out int PastMoney)
+        {
+            PastHealth = player.PHealthC;
+            PastMoney = player.PMoney;
+
+            int properProtect;  // 권장 방어력
+            int minusHealth;   // 체력 감소값
+            int minusValue;
+            if (!int.TryParse(difficulty, out int selectindex) || selectindex < 0 || selectindex > 3)
+            {
+                Console.WriteLine("잘못된 입력 번호입니다.");
+                return;
+            }
+
+            if (selectindex == 1)
+            {
+                difficultyReward(player, 5, 1000 , PastHealth, PastMoney);
+                
+            }
+            else if (selectindex == 2)
+            {
+                difficultyReward(player, 11, 1700, PastHealth, PastMoney);
+                
+            }
+            else if (selectindex == 3)
+            {
+                difficultyReward(player, 17, 2500, PastHealth, PastMoney);
+                
+            }
+
+        }
+
+        public void difficultyReward(Player player, int properProtect, int baseReward, int PastHealth, int PastMoney)
+        {
+            int minusValue;
+            Random rand = new Random();
+
+            if (player.ProtectP < properProtect)        // 권장 방어력보다 낮다면
+            {
+                           // 랜덤 객체생성
+                int successValue = rand.Next(1, 101);   // 1~100 사이 정수 랜덤 뽑기
+                if (successValue <= 40)                 // 40% 확률로 실패했을시
+                {
+                    player.PHealthC = PastHealth / 2;    // 체력 절반으로 감소
+                }
+                else                                     // 권장 방어력보다 낮은데 60% 확률로 성공했을 시
+                {
+                    minusValue = rand.Next(20, 36) + (properProtect - player.ProtectP);  // 20~35 감소수치 랜덤 뽑기 - 방어력 차이 = 최종 감소 수치
+                    player.PHealthC = PastHealth - minusValue;
+                    // 공격력에 따른 골드 추가 보상
+                    double plusRewardValue = rand.NextDouble() * (player.AttackP * 2 - player.AttackP) + player.AttackP;  // 0 ~10 사이에 10 더해주면 10~20사이 됨.
+                    player.PMoney = PastMoney + baseReward + (int)(baseReward * (plusRewardValue / 100.0));
+                }
+            }
+            else   // 권장 방어력보다 높다면
+            {
+                minusValue = rand.Next(20, 36) + (properProtect - player.ProtectP);  // 20~35 감소수치 랜덤 뽑기 - 방어력 차이 = 최종 감소 수치
+                player.PHealthC = PastHealth - minusValue;
+            }
+
+            
+        }
+
         public void InputNull(string input)
         {
             if (input == null) return;
