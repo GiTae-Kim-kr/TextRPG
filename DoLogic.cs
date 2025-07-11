@@ -153,6 +153,40 @@ namespace TextRPG
             }
         }
 
+        public void ItemSell (string itemNumber, List<Item> inventory, Player player)
+        {
+            
+
+            if (!int.TryParse(itemNumber, out int iIndex) || iIndex < 0 || iIndex >= inventory.Count + 1)
+            {
+                Console.WriteLine("잘못된 아이템 번호입니다.");
+                return;
+            }
+
+
+            if (iIndex == 0) return;
+            Item item = inventory[iIndex-1];
+
+            if ((item.IsPurchased))
+            {
+                double soldMoney = item.ItemPrice * 0.85;
+                item.IsPurchased = false;             // 이미 판매했으니까 false
+                player.PMoney += (int)soldMoney;      // 판매금액만큼 소지금액 상승
+                inventory.Remove(item);               //인벤토리 아이템리스트에서 삭제
+                item.IsItemWear = false;              // 판매했으니까 착용해제
+                Console.WriteLine($"{item.ItemName}을 판매를 완료 하셨습니다!");
+                
+
+            }
+            else Console.WriteLine("이미 구매한 아이템입니다!");
+
+
+        }
+
+        public void InputNull(string input)
+        {
+            if (input == null) return;
+        }
 
 	}
 }

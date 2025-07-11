@@ -52,6 +52,7 @@ namespace TextRPG
                         game.ItemBuyScene();        // 상점-장비 구매창으로 이동
 
                     }
+                    else if (shopInput == "2") game.ItemSellScene();  // 상점- 판매창으로 이동
 
                 }
                 else if (game.SelectRoute == 5) game.RestScene();

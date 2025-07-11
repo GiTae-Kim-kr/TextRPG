@@ -76,6 +76,7 @@ namespace TextRPG
 
         public static string SelectTwo { get; } =
             "1. 아이템 구매\n" +
+            "2. 아이템 판매\n" +
             "0. 나가기";
 
         public static string BuyShopItem { get; } =
@@ -84,6 +85,13 @@ namespace TextRPG
             "[보유 골드]\n" +
             "{0} G\n\n" +
             "[아이템 목록]";
+
+        public static string SellInvenItem { get; } =
+            "상점 - 아이템 판매\n" +
+            "필요없는 아이템을 판매할 수 있습니다!\n\n" +
+            "[보유 골드]\n" +
+            "{0} G \n\n" +
+            "[아이템 목록]\n";
 
         public static string RestHealth { get; } =
             "휴식하기\n" +

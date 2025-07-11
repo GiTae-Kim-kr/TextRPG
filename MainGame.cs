@@ -48,6 +48,7 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextRpgCS.Choicejob);        // 직업 선택.
             string Playerjob = Console.ReadLine();
+            doLogic.InputNull(Playerjob);
             if (int.TryParse(Playerjob, out int jjob))    // 선택 값 받아서 정수값 해주고 switch문으로 직업 저장.
             {
                 switch(jjob)
@@ -72,6 +73,7 @@ namespace TextRPG
             Console.Write(TextRpgCS.SetPlayerChoice); //상태창,인벤토리,상점,던전 선택
 
             string input = Console.ReadLine();
+            doLogic.InputNull(input);
             if (int.TryParse(input, out int route))
             {
                 SelectRoute = route;
@@ -134,7 +136,7 @@ namespace TextRPG
             do
             {
                 string itemNumber = Console.ReadLine();
-
+                doLogic.InputNull(itemNumber);
                 doLogic.SelectWearItem(index, itemNumber, inventory);
 
                 if (itemNumber == "0") break;
@@ -172,6 +174,7 @@ namespace TextRPG
                 Console.Write(TextRpgCS.SetPlayerChoice);
 
                 string buyitem = Console.ReadLine();
+                doLogic.InputNull(buyitem);
                 doLogic.BuyItem(buyitem, player, shopItem, inventory);
                 index = 1;
 
@@ -185,22 +188,58 @@ namespace TextRPG
 
         }
 
-        public void RestScene()
+        public void ItemSellScene()    // 아이템 판매 창
+        {
+            Console.Clear();
+            Console.WriteLine(TextRpgCS.SellInvenItem, player.PMoney);
+            foreach (Item item in inventory)
+            {// 인벤토리 아이템에 가격 표시해서 상점 판매창에서 볼 수 있게 하기
+
+                Console.Write($"-{index}.[{item.ItemRarity}]{item.ItemName}    |{item.ItemAbilityType} {item.ItemEffectValue} | ");
+                Console.WriteLine($"{item.ItemDescription}    | {item.ItemPrice}");
+                index++;
+            }
+            Console.WriteLine("\n0. 나가기\n");
+            Console.Write(TextRpgCS.SetPlayerChoice);
+            string itemNumber = Console.ReadLine();
+            doLogic.InputNull(itemNumber);
+            doLogic.ItemSell(itemNumber, inventory,player);               // 아이템 판매 함수
+            index = 1;
+
+            // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
+            Console.WriteLine("계속하려면 아무 키나 누르세요...");
+            Console.ReadKey();
+
+        }
+
+
+        public void RestScene()   // 회복할 수 있는 창.
         {
             Console.Clear();
             Console.WriteLine(TextRpgCS.RestHealth,player.PMoney );
             Console.Write(TextRpgCS.SetPlayerChoice);
             string restSelect = Console.ReadLine();
+            doLogic.InputNull(restSelect);
             if (restSelect == "1")
             {
                 int CureHealth = player.PHealthG - player.PHealthC; // 전체 HP에서 현재 체력을 뺴면 회복에 필요한 HP 양을 구할 수 있음
 
-                player.PMoney -= 500;
-                player.PHealthC += CureHealth;
-                Console.WriteLine($"{CureHealth} 만큼 HP를 회복하였습니다!");
-                // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
-                Console.WriteLine("계속하려면 아무 키나 누르세요...");
-                Console.ReadKey();
+                if (CureHealth <= 0)
+                {
+                    Console.WriteLine("이미 체력이 가득찼습니다!");
+                    Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                    Console.ReadKey();
+
+                }
+                else
+                {
+                    player.PMoney -= 500;
+                    player.PHealthC += CureHealth;
+                    Console.WriteLine($"{CureHealth} 만큼 HP를 회복하였습니다!");
+                    // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
+                    Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                    Console.ReadKey();
+                }
 
             }
             else 
