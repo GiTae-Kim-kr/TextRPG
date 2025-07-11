@@ -115,6 +115,12 @@ namespace TextRPG
             "체력 {1} -> {2}\n" +
             "Gold {3} -> {4}\n\n";
 
+        public static string DungeonFailed { get;  } =
+            "{0} 던전을 탐험하는 것에 실패하셨습니다...!\n\n" +
+            "[탐험 결과]\n"+
+            "체력 {1} -> {2}\n" +
+            "Gold {3} -> {4}\n\n";
+
         //문자열 받아서 한글자씩 띄우는 함수
         static void PrintStringByTick (string s, int interval)
         {

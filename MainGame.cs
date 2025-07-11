@@ -272,16 +272,38 @@ namespace TextRPG
 
         public void DungeonClearScene(string difficulty)
         {
-            int PastHealth = 0, PastMoney = 0;
+            bool isSuccess;
+            int PastHealth, PastMoney;
             Console.Clear();
 
-            doLogic.ReflectDungeonResult(player, difficulty, out PastHealth, out PastMoney);
+            if (player.PHealthC > 0)
+            {
+                doLogic.ReflectDungeonResult(player, difficulty, out PastHealth, out PastMoney, out isSuccess);
+                
+                if (isSuccess)
+                {
+                    Console.WriteLine(string.Format(TextRpgCS.DungeonClear, difficulty, PastHealth, player.PHealthC, PastMoney, player.PMoney));
+                }
+                else if (!isSuccess)
+                {
+                    Console.WriteLine(string.Format(TextRpgCS.DungeonFailed, difficulty, PastHealth, player.PHealthC, PastMoney, player.PMoney));
+                }
 
-            Console.WriteLine(string.Format(TextRpgCS.DungeonClear, difficulty, PastHealth, player.PHealthC, PastMoney, player.PMoney));
-            Console.WriteLine("\n0. 나가기\n\n");
-            Console.Write(TextRpgCS.SetPlayerChoice);
-
-            Console.ReadKey();
+                if (player.PHealthC == 0)
+                {
+                    Console.WriteLine("당신은 모든 HP를 잃으셨습니다! 휴식을 진행해주세요!");
+                    Console.ReadKey();
+                }
+                Console.WriteLine("\n0. 나가기\n\n");
+                Console.Write(TextRpgCS.SetPlayerChoice);
+            }
+            else 
+            { 
+                Console.WriteLine("당신은 충분한 HP가 없습니다! 휴식을 취해주세요!");
+                Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                Console.ReadKey();
+            }
+            
         }
 
 

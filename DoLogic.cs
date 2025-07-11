@@ -17,7 +17,7 @@ namespace TextRPG
 		public void BuyItem(string BuyNumber , Player player , Shop shopItem, List<Item> inventory)
 		{
 			// out으로 index 선언 및 초기화도 하면서 예외 처리를 진행한 코드
-            if (!int.TryParse(BuyNumber, out int index) || index < 0 || index >= shopItem.ShopItems.Count)
+            if (!int.TryParse(BuyNumber, out int index) || index < 0 || index >= shopItem.ShopItems.Count+1)
             {
                 Console.WriteLine("잘못된 아이템 번호입니다.");
                 return;
@@ -200,43 +200,44 @@ namespace TextRPG
 
         }
 
-        public void ReflectDungeonResult(Player player, string difficulty, out int PastHealth, out int PastMoney)
+        public void ReflectDungeonResult(Player player, string difficulty, out int PastHealth, out int PastMoney, out bool isSuccess)
         {
-            PastHealth = player.PHealthC;
-            PastMoney = player.PMoney;
+            PastHealth = player.PHealthC;   // 입장 전 HP
+            PastMoney = player.PMoney;      // 입장 전 골드
+            isSuccess = true;
 
             int properProtect;  // 권장 방어력
             int minusHealth;   // 체력 감소값
             int minusValue;
-            if (!int.TryParse(difficulty, out int selectindex) || selectindex < 0 || selectindex > 3)
-            {
-                Console.WriteLine("잘못된 입력 번호입니다.");
-                return;
-            }
+            
 
-            if (selectindex == 1)
+            if (difficulty == "Easy")
             {
-                difficultyReward(player, 5, 1000 , PastHealth, PastMoney);
+                difficultyReward(player, 5, 1000 , PastHealth, PastMoney, out isSuccess);
+            }
+            else if (difficulty == "Normal")
+            {
+                difficultyReward(player, 11, 1700, PastHealth, PastMoney, out isSuccess);
                 
             }
-            else if (selectindex == 2)
+            else if (difficulty == "Hard")
             {
-                difficultyReward(player, 11, 1700, PastHealth, PastMoney);
-                
-            }
-            else if (selectindex == 3)
-            {
-                difficultyReward(player, 17, 2500, PastHealth, PastMoney);
+                difficultyReward(player, 17, 2500, PastHealth, PastMoney, out isSuccess);
                 
             }
 
+            if (player.PHealthC < 0)
+            {
+                player.PHealthC = 0;
+                
+            }
         }
 
-        public void difficultyReward(Player player, int properProtect, int baseReward, int PastHealth, int PastMoney)
+        public void difficultyReward(Player player, int properProtect, int baseReward, int PastHealth, int PastMoney, out bool isSuccess)
         {
             int minusValue;
             Random rand = new Random();
-
+            
             if (player.ProtectP < properProtect)        // 권장 방어력보다 낮다면
             {
                            // 랜덤 객체생성
@@ -244,6 +245,7 @@ namespace TextRPG
                 if (successValue <= 40)                 // 40% 확률로 실패했을시
                 {
                     player.PHealthC = PastHealth / 2;    // 체력 절반으로 감소
+                    isSuccess = false;
                 }
                 else                                     // 권장 방어력보다 낮은데 60% 확률로 성공했을 시
                 {
@@ -252,12 +254,17 @@ namespace TextRPG
                     // 공격력에 따른 골드 추가 보상
                     double plusRewardValue = rand.NextDouble() * (player.AttackP * 2 - player.AttackP) + player.AttackP;  // 0 ~10 사이에 10 더해주면 10~20사이 됨.
                     player.PMoney = PastMoney + baseReward + (int)(baseReward * (plusRewardValue / 100.0));
+                    isSuccess = true;
                 }
             }
-            else   // 권장 방어력보다 높다면
+            else   // 권장 방어력보다 높다면 항상 성공
             {
                 minusValue = rand.Next(20, 36) + (properProtect - player.ProtectP);  // 20~35 감소수치 랜덤 뽑기 - 방어력 차이 = 최종 감소 수치
                 player.PHealthC = PastHealth - minusValue;
+                // 공격력에 따른 골드 추가 보상
+                double plusRewardValue = rand.NextDouble() * (player.AttackP * 2 - player.AttackP) + player.AttackP;  // 0 ~10 사이에 10 더해주면 10~20사이 됨.
+                player.PMoney = PastMoney + baseReward + (int)(baseReward * (plusRewardValue / 100.0));
+                isSuccess = true;
             }
 
             
