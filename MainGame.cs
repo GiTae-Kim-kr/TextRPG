@@ -30,7 +30,7 @@ namespace TextRPG
         public void IntroGame()
         {
 
-            player = new Player(0, "무전직자", 10, 5, 100 ,1500);  // 초기값!
+            player = new Player(1, "무전직자", 10.0f, 5.0f, 100 ,1500);  // 초기값!
 
             while (true)
             {
@@ -272,7 +272,8 @@ namespace TextRPG
 
         public void DungeonClearScene(string difficulty)
         {
-            bool isSuccess;
+            int ClearCount = 0;   // 던전 클리어 횟수
+            bool isSuccess;        // 성공 실패에 대한 bool 값. 값에 따라 텍스트 다르게 출력
             int PastHealth, PastMoney;
             Console.Clear();
 
@@ -282,7 +283,9 @@ namespace TextRPG
                 
                 if (isSuccess)
                 {
+                    ClearCount++;
                     Console.WriteLine(string.Format(TextRpgCS.DungeonClear, difficulty, PastHealth, player.PHealthC, PastMoney, player.PMoney));
+                    doLogic.LevelUp(player, ClearCount);
                 }
                 else if (!isSuccess)
                 {

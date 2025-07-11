@@ -131,14 +131,12 @@ namespace TextRPG
         public void ReflectItemValue(Player player, List<Item> inventory,out string plusStatA,out string plusStatP)    // 장착한 아이템에 따른 상태창 변화
         {
 
-            int addAttack = 0;  // 공격 추가 수치를 저장을 위한 변수
-            int addProtect = 0;  // 마찬가지로 방어 추가 수치
+            float addAttack = 0.0f;  // 공격 추가 수치를 저장을 위한 변수
+            float addProtect = 0.0f;  // 마찬가지로 방어 추가 수치
 
             plusStatA = "";  // 함수 밖에서 쓰기위해 out으로 매개변수를 생성해줌
             plusStatP = "";
 
-            player.BaseAttackP = 10;
-            player.BaseProtectP = 5;
 
             foreach (Item item in inventory)
             {
@@ -146,7 +144,7 @@ namespace TextRPG
 
                 if (item.IsItemWear)   // 인벤토리에서 장착하고 있는 아이템이라면
                 {
-                    int value = Math.Abs(int.Parse(item.ItemEffectValue));  // "+7" 형식의 스트링값을 정수형으로 변환후 절대값을 취해주는 코드
+                    float value = Math.Abs(float.Parse(item.ItemEffectValue));  // "+7" 형식의 스트링값을 정수형으로 변환후 절대값을 취해주는 코드
                     switch (item.ItemAbilityType)  // 장착하고 있는 아이템의 능력 종류에 따라서 다른 능력에 반영
                     {
                         case "공격력":
@@ -165,8 +163,8 @@ namespace TextRPG
                 if (addProtect > 0) plusStatP = $"(+{addProtect})";
 
                 // 최종 능력치는 기본 능력치 + 장착 아이템 보너스
-                player.AttackP = player.BaseAttackP + addAttack;
-                player.ProtectP = player.BaseProtectP + addProtect;
+                player.AttackP = player.PBaseAP + addAttack;
+                player.ProtectP = player.PBasePP + addProtect;
             }
         }
 
@@ -235,6 +233,7 @@ namespace TextRPG
 
         public void difficultyReward(Player player, int properProtect, int baseReward, int PastHealth, int PastMoney, out bool isSuccess)
         {
+            
             int minusValue;
             Random rand = new Random();
             
@@ -249,26 +248,45 @@ namespace TextRPG
                 }
                 else                                     // 권장 방어력보다 낮은데 60% 확률로 성공했을 시
                 {
-                    minusValue = rand.Next(20, 36) + (properProtect - player.ProtectP);  // 20~35 감소수치 랜덤 뽑기 - 방어력 차이 = 최종 감소 수치
+                    minusValue = rand.Next(20, 36) + (int)(properProtect - player.ProtectP);  // 20~35 감소수치 랜덤 뽑기 - 방어력 차이 = 최종 감소 수치
                     player.PHealthC = PastHealth - minusValue;
                     // 공격력에 따른 골드 추가 보상
                     double plusRewardValue = rand.NextDouble() * (player.AttackP * 2 - player.AttackP) + player.AttackP;  // 0 ~10 사이에 10 더해주면 10~20사이 됨.
                     player.PMoney = PastMoney + baseReward + (int)(baseReward * (plusRewardValue / 100.0));
                     isSuccess = true;
+                    
                 }
             }
             else   // 권장 방어력보다 높다면 항상 성공
             {
-                minusValue = rand.Next(20, 36) + (properProtect - player.ProtectP);  // 20~35 감소수치 랜덤 뽑기 - 방어력 차이 = 최종 감소 수치
+                minusValue = rand.Next(20, 36) + (int)(properProtect - player.ProtectP);  // 20~35 감소수치 랜덤 뽑기 - 방어력 차이 = 최종 감소 수치
                 player.PHealthC = PastHealth - minusValue;
                 // 공격력에 따른 골드 추가 보상
                 double plusRewardValue = rand.NextDouble() * (player.AttackP * 2 - player.AttackP) + player.AttackP;  // 0 ~10 사이에 10 더해주면 10~20사이 됨.
                 player.PMoney = PastMoney + baseReward + (int)(baseReward * (plusRewardValue / 100.0));
                 isSuccess = true;
+                
             }
 
-            
         }
+
+        public void LevelUp(Player player, int ClearCount)    // 레벨 업 함수
+        {
+
+
+            if (player.PLevel == ClearCount)
+            {
+                player.PLevel = ClearCount+1;
+                player.PBaseAP = player.PBaseAP + 0.5f;
+                player.PBasePP += 1;
+                player.AttackP +=  Math.Abs(player.PBaseAP - player.AttackP);   // 그냥 베이스값에만 더해주면 값은 변했는데 눈으로 확인이 안됨
+                player.ProtectP += Math.Abs(player.PBasePP - player.PㄴrotectP);  // 스탯창에서 ReflectValue함수에 AttackP 값 변경시키는게 있어서 그거 실행해야 추가된 레벨업 스탯 반영됨.
+                // 그래서 레벨업되면 바로 스탯창에서 확인할 수 있게 AttackP, ProtectP 값을 설정해주는 것.
+
+                Console.WriteLine($"축하합니다! Level이 LV.{player.PLevel - 1}에서 LV.{player.PLevel}이 되셨습니다!");
+            }
+        }
+
 
         public void InputNull(string input)
         {
