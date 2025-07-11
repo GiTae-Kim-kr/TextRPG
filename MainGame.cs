@@ -138,6 +138,7 @@ namespace TextRPG
                 string itemNumber = Console.ReadLine();
                 doLogic.InputNull(itemNumber);
                 doLogic.SelectWearItem(index, itemNumber, inventory);
+                
 
                 if (itemNumber == "0") break;
 

@@ -11,9 +11,11 @@ internal class Item
     public string ItemDescription { get; set; }     //아이템 설명
     public int ItemPrice { get; set; }
     public bool IsPurchased { get; set; }           // 아이템 구매 여부
+    public string ItemTag { get; set; }             // 아이템 종류 구분을 위한 태그 
+    
 
     //생성자
-    public Item( string rarity, string name, string abilityType, string effectValue, string description, int itemPrice)
+    public Item( string rarity, string name, string abilityType, string effectValue, string description, int itemPrice, string tag)
     {
         ItemRarity = rarity;
         ItemName = name;
@@ -22,6 +24,7 @@ internal class Item
         ItemDescription = description;
         ItemPrice = itemPrice;
         IsPurchased = false;
+        ItemTag = tag;
     }
 
 

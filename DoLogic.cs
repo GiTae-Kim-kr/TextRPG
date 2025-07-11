@@ -84,6 +84,34 @@ namespace TextRPG
 
             if (wearIndex == 0) return;
 
+            Item selectitem = inventory[wearIndex-1];
+
+            if (selectitem.IsItemWear)
+            {
+                Console.WriteLine($"{selectitem.ItemName}을 장착 해제 합니다!");
+                inventory[wearIndex - 1].IsItemWear = false;
+                return;
+            }
+
+            bool alreadyEquipped = false;  // 같은 계열 아이템 중 이미 장착한 거 있는지 확인위해 생성
+            foreach (Item item in inventory)
+            {
+                if (item.ItemTag == selectitem.ItemTag && item.IsItemWear)
+                { // 선택한 아이템의 태그랑 같은 태그의 아이템 중에서 장착한게 있다면 진입
+                    item.IsItemWear = false;  // 기존 착용한 아이템 착용 해제
+                    alreadyEquipped = true;  //  이미 장착한 것 있다고 표시
+                    if (alreadyEquipped)
+                    {
+                        Console.WriteLine("이미 같은 계열의 아이템을 장착 중입니다!");
+                        Console.WriteLine($"{item.ItemName}의 장착을 해제합니다.");
+                        
+                    }
+                }
+            }
+
+            selectitem.IsItemWear = true;    // 선택한 아이템은 무조건 장착
+            Console.WriteLine($"{selectitem.ItemName}을(를) 장착하였습니다!");
+
             // 잠깐 멈춰서 BuyItem 문구 출력하게 할려고 추가. 
             Console.WriteLine("계속하려면 아무 키나 누르세요...");
             Console.ReadKey();
@@ -91,21 +119,10 @@ namespace TextRPG
             Console.Clear();
             Console.WriteLine(TextRpgCS.EquipmentStatus);
 
-
-            if (!(inventory[wearIndex-1].IsItemWear))  // 선택한 아이템이 장착되지 않은 상태라면 true로
-            {
-                inventory[wearIndex - 1].IsItemWear = true;
-            }
-            else                                       // 선택한 아이템이 이미 장착되어 있던 상태라면 해제를 위해 false로
-            {
-                inventory[wearIndex - 1].IsItemWear = false;
-            }
-
             SeeInventoryItem(index, inventory);     // 인벤토리 아이템 나타내는 함수.
 
             Console.WriteLine("\n\n0. 나가기\n\n");
             Console.Write(TextRpgCS.SetPlayerChoice);
-
 
         }
 
