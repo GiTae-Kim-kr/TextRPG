@@ -280,7 +280,7 @@ namespace TextRPG
                 player.PBaseAP = player.PBaseAP + 0.5f;
                 player.PBasePP += 1;
                 player.AttackP +=  Math.Abs(player.PBaseAP - player.AttackP);   // 그냥 베이스값에만 더해주면 값은 변했는데 눈으로 확인이 안됨
-                player.ProtectP += Math.Abs(player.PBasePP - player.PㄴrotectP);  // 스탯창에서 ReflectValue함수에 AttackP 값 변경시키는게 있어서 그거 실행해야 추가된 레벨업 스탯 반영됨.
+                player.ProtectP += Math.Abs(player.PBasePP - player.ProtectP);  // 스탯창에서 ReflectValue함수에 AttackP 값 변경시키는게 있어서 그거 실행해야 추가된 레벨업 스탯 반영됨.
                 // 그래서 레벨업되면 바로 스탯창에서 확인할 수 있게 AttackP, ProtectP 값을 설정해주는 것.
 
                 Console.WriteLine($"축하합니다! Level이 LV.{player.PLevel - 1}에서 LV.{player.PLevel}이 되셨습니다!");

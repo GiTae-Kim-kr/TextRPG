@@ -37,7 +37,8 @@ namespace TextRPG
             "2. 인벤토리\n" +
             "3. 상점\n" +
             "4. 던전 입장\n"+
-            "5. 휴식하기\n";
+            "5. 휴식하기\n\n"+
+            "저장을 원하시면 \"저장\"이라고 입력하여 주세요!\n";
 
         public static string ShowPlayerStatus { get; } =
             "{0}의 상태창 \n" +

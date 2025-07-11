@@ -16,7 +16,9 @@ namespace TextRPG
         private Player player;  // Player.cs의 프로퍼티 사용하기 위해 인스턴스 만들어야 함. 그걸 위한 필드 선언.
         private List<Item> inventory = new List<Item>();  //인벤토리에 추가된 아이템 리스트 담을 객체
         private Shop shopItem = new Shop();      //상점에 추가한 아이템 볼 수 있게 클래스 받아온 객체
+
         DoLogic doLogic = new DoLogic();    // DoLogic 클래스의 함수 사용할려고 인스턴스 생성
+        SaveData saveData = new SaveData();  // SaveData 클래스 인스턴스 생성
 
         private int index = 1;  // 인벤토리, 상점창에서 아이템 번호 나타내기 위한 변수 선언
 
@@ -27,43 +29,73 @@ namespace TextRPG
         }
 
 
-        public void IntroGame()
+        public void IntroGame(out string selectLoad)
         {
 
-            player = new Player(1, "무전직자", 10.0f, 5.0f, 100 ,1500);  // 초기값!
+            player = new Player(1, "무전직자", 10.0f, 5.0f, 100, 1500);  // 초기값!
 
             while (true)
             {
                 Console.WriteLine(TextRpgCS.SetPlayerName);
+                Console.Write("이전 데이터를 로드하시겠습니까? (Y/N)");
+                selectLoad = Console.ReadLine().ToUpper();  // 이전 데이터 로드할지 물어보기
+                doLogic.InputNull(selectLoad);  // null값 입력 방지 함수 호출
+                if (selectLoad == "Y")
+                {
+                    SaveData savedata = saveData.LoadGame();  // 저장된 데이터 불러오기
+                    if (savedata != null)
+                    {
+                        player = savedata.Player;  // Player.cs의 프로퍼티에 저장된 이름, 레벨, 직업, 공격력, 방어력, 체력, 골드 값 불러오기
+                        inventory = savedata.Inventory;  // 인벤토리 아이템 리스트 불러오기
+                        
+                        Console.WriteLine("이전 데이터를 불러왔습니다!");
+                        Console.WriteLine("시작 화면으로 이동합니다!");
+                        Console.ReadKey();  // 아무키나 누르면 계속 진행
+                        break;
+                    }
+                }
+                else if (selectLoad == "N")
+                {
+                    Console.WriteLine("새로운 게임을 시작합니다!");  // 새 게임 시작시 이름 설정하는 로직으로 넘어감.
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다! 다시 입력해주세요.");
+                    continue;  // 잘못된 입력시 다시 물어보기
+
+                }
+                Console.WriteLine("이름을 설정하여 주세요!");
                 string PlayerName = Console.ReadLine();
                 Console.WriteLine(string.Format(TextRpgCS.SavePlayerName, PlayerName));
                 int IsSave = int.Parse(Console.ReadLine());
+
                 //이름 저장 로직 작성
                 if (IsSave == 1) { player.PName = PlayerName; break; }    //Player.cs의 이름필드에 입력한 이름 저장.
                 else if (IsSave == 2) Console.WriteLine("이름을 다시 설정해주세요");
                 else Console.WriteLine("잘못된 입력입니다!");
             }
+        }
 
-            //게임 인트로 화면, 직업 설정
+        public void  SetJobScene()
+        {
+            //직업 선택 화면, 직업 설정
             Console.Clear();
             Console.WriteLine(TextRpgCS.Choicejob);        // 직업 선택.
             string Playerjob = Console.ReadLine();
             doLogic.InputNull(Playerjob);
             if (int.TryParse(Playerjob, out int jjob))    // 선택 값 받아서 정수값 해주고 switch문으로 직업 저장.
             {
-                switch(jjob)
+                switch (jjob)
                 {
                     case 1: player.PJob = "전사"; break;
                     case 2: player.PJob = "마법사"; break;
                     case 3: player.PJob = "궁수"; break;
                     case 4: player.PJob = "도적"; break;
                 }
-
-                
             }
-
-
         }
+
+            
 
         public void StartGame()  // 필수기능가이드1. 게임시작화면.
         {
@@ -74,24 +106,36 @@ namespace TextRPG
 
             string input = Console.ReadLine();
             doLogic.InputNull(input);
-            if (int.TryParse(input, out int route))
+            if (input == "저장")  // 저장 기능 구현
             {
-                SelectRoute = route;
-                switch (SelectRoute)
-                {
-                    case 1: Console.WriteLine("상태창으로 이동합니다!"); break;
-                    case 2: Console.WriteLine("인벤토리를 확인합니다!"); break;
-                    case 3: Console.WriteLine("상점으로 이동합니다!"); break;
-                    case 4: Console.WriteLine("던전으로 이동합니다!"); break;
-                    case 5: Console.WriteLine("휴식을 위해 이동합니다!"); break;
-                    default: Console.WriteLine("잘못된 선택입니다!"); break;
-                }
+                saveData.SaveGame(player, inventory);  // SaveData 클래스의 SaveGame 함수 호출
+                Console.WriteLine("계속하려면 아무 키나 누르세요...");
+                Console.ReadKey();  // 아무키나 누르면 계속 진행
+                return;
             }
             else
             {
-                Console.WriteLine("숫자를 입력해주세요!");
-                SelectRoute = 0;
+                if (int.TryParse(input, out int route))
+                {
+                    SelectRoute = route;
+                    switch (SelectRoute)
+                    {
+                        case 1: Console.WriteLine("상태창으로 이동합니다!"); break;
+                        case 2: Console.WriteLine("인벤토리를 확인합니다!"); break;
+                        case 3: Console.WriteLine("상점으로 이동합니다!"); break;
+                        case 4: Console.WriteLine("던전으로 이동합니다!"); break;
+                        case 5: Console.WriteLine("휴식을 위해 이동합니다!"); break;
+                        default: Console.WriteLine("잘못된 선택입니다! 게임을 종료합니다!"); break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("숫자를 입력해주세요!");
+                    SelectRoute = 0;
+                }
             }
+
+            
 
 
         }

@@ -17,12 +17,28 @@ namespace TextRPG
             
             Console.WriteLine(TextRpgCS.EnterDungeon);  //게임 환영 문구
             MainGame game = new MainGame();
-            game.IntroGame();
+            game.IntroGame(out string selectLoad);
 
             while (true)    // 각 씬의 앞 뒤로 왔다 갔다 할 수 있게 StartGame() 씬을 기준으로 반복을 설정.
             {
+                if (selectLoad == "Y")
+                {
+                    game.StartGame();
+                    break;  // 게임 시작 씬으로 이동
+                }
+                else if (selectLoad == "N")
+                {
+                    game.IntroGame(out selectLoad);  // 게임 시작 전 인트로 씬으로 돌아가기
+                    game.SetJobScene();  // 직업 선택 씬으로 이동
+                    game.StartGame();  // 직업 선택 후 게임 시작 씬으로 이동
+                    break;
+                }
+            }
 
-                game.StartGame();
+            while (true)  // 게임 시작 후 루트 선택 씬으로 이동
+            {
+
+               game.StartGame();  // 게임 시작 씬으로 이동
 
                 //게임 시작화면에서 루트 선택(상태,인벤,상점,던전)
                 if (game.SelectRoute == 1)
@@ -55,20 +71,21 @@ namespace TextRPG
                     else if (shopInput == "2") game.ItemSellScene();  // 상점- 판매창으로 이동
 
                 }
-                else if (game.SelectRoute == 4)   
+                else if (game.SelectRoute == 4)
                 {
 
                     game.GoDungeonScene();    // 던전 난이도 선택창으로 이동
                     string selectDungeon = Console.ReadLine();
-                    if (selectDungeon == "1") { string difficulty = "Easy";  game.DungeonClearScene(difficulty); }
-                    else if (selectDungeon =="2") { string difficulty = "Normal";  game.DungeonClearScene(difficulty); }
+                    if (selectDungeon == "1") { string difficulty = "Easy"; game.DungeonClearScene(difficulty); }
+                    else if (selectDungeon == "2") { string difficulty = "Normal"; game.DungeonClearScene(difficulty); }
                     else if (selectDungeon == "3") { string difficulty = "Hard"; game.DungeonClearScene(difficulty); }
                     string input = Console.ReadLine();
                 }
                 else if (game.SelectRoute == 5) game.RestScene();
                 else if (game.SelectRoute == 0) break;
-
+            
             }
+
 
         }
     }
